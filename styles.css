@@ -275,6 +275,12 @@ a:hover { color: var(--accent-hover); }
   font-weight: 600;
   color: var(--text);
   display: block;
+  cursor: pointer;
+}
+
+.thread-title:hover {
+  color: var(--accent);
+  text-decoration: underline;
 }
 
 .thread-meta {
