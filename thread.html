@@ -32,7 +32,7 @@
       <span class="brand-text">AF</span>
     </a>
     <nav class="main-nav">
-      <a href="index.html" class="active">Forums</a>
+      <a href="index.html">Forums</a>
       <a href="members.html">Members</a>
       <a href="rules.html">Rules</a>
       <span id="nav-auth-slot"><a href="auth.html">Login</a></span>
@@ -41,21 +41,24 @@
 </header>
 
 <main class="container">
-  <p class="breadcrumb"><a href="index.html">Forums</a> / <span id="category-crumb">Category</span></p>
+  <p class="breadcrumb">
+    <a href="index.html">Forums</a> /
+    <a href="forum.html" id="category-crumb-link">Category</a> /
+    <span id="thread-crumb">Thread</span>
+  </p>
 
-  <section class="forum-hero category-hero">
-    <div class="forum-icon large" id="category-icon">--</div>
-    <div>
-      <h1 id="category-title">Loading...</h1>
-      <p id="category-desc"></p>
-    </div>
-  </section>
+  <article class="thread-detail">
+    <h1 id="thread-title">Loading...</h1>
+    <p class="thread-meta" id="thread-meta"></p>
+    <p class="thread-body" id="thread-body"></p>
+  </article>
 
-  <ul class="forum-list thread-list" id="thread-list"></ul>
+  <h2 class="group-title" id="replies-heading">Replies</h2>
+  <ul class="forum-list thread-list" id="replies-list"></ul>
 
   <section class="post-box">
-    <h2 class="group-title">Start a new thread</h2>
-    <div id="post-box-inner"></div>
+    <h2 class="group-title">Post a reply</h2>
+    <div id="reply-box-inner"></div>
   </section>
 </main>
 
@@ -69,6 +72,6 @@
 <script src="supabase-client.js"></script>
 <script src="auth-nav.js"></script>
 <script src="categories.js"></script>
-<script src="forum.js"></script>
+<script src="thread.js"></script>
 </body>
 </html>

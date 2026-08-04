@@ -55,3 +55,36 @@ create policy "Threads are viewable by everyone"
 create policy "Authenticated users can create threads"
   on public.threads for insert
   with check (auth.uid() = author_id);
+
+create table public.replies (
+  id uuid primary key default gen_random_uuid(),
+  thread_id uuid not null references public.threads(id) on delete cascade,
+  body text not null,
+  author_id uuid not null references public.profiles(id) on delete cascade,
+  created_at timestamptz not null default now()
+);
+
+alter table public.replies enable row level security;
+
+create policy "Replies are viewable by everyone"
+  on public.replies for select
+  using (true);
+
+create policy "Authenticated users can create replies"
+  on public.replies for insert
+  with check (auth.uid() = author_id);
+
+create function public.increment_reply_count()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  update public.threads set reply_count = reply_count + 1 where id = new.thread_id;
+  return new;
+end;
+$$;
+
+create trigger on_reply_created
+  after insert on public.replies
+  for each row execute procedure public.increment_reply_count();
