@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AF | Airsoft Forum</title>
+<title>Rules | AF</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -32,31 +32,54 @@
       <span class="brand-text">AF</span>
     </a>
     <nav class="main-nav">
-      <a href="index.html" class="active">Forums</a>
+      <a href="index.html">Forums</a>
       <a href="members.html">Members</a>
-      <a href="rules.html">Rules</a>
+      <a href="rules.html" class="active">Rules</a>
       <span id="nav-auth-slot"><a href="auth.html">Login</a></span>
     </nav>
   </div>
 </header>
 
 <main class="container">
-  <p class="breadcrumb"><a href="index.html">Forums</a> / <span id="category-crumb">Category</span></p>
-
-  <section class="forum-hero category-hero">
-    <div class="forum-icon large" id="category-icon">--</div>
-    <div>
-      <h1 id="category-title">Loading...</h1>
-      <p id="category-desc"></p>
-    </div>
+  <section class="forum-hero">
+    <h1>Forum Rules</h1>
+    <p>Read these before posting. Moderators enforce them at their discretion.</p>
   </section>
 
-  <ul class="forum-list thread-list" id="thread-list"></ul>
-
-  <section class="post-box">
-    <h2 class="group-title">Start a new thread</h2>
-    <div id="post-box-inner"></div>
-  </section>
+  <ol class="rules-list">
+    <li>
+      <h3>Be respectful</h3>
+      <p>No harassment, hate speech, or personal attacks. Disagree with ideas, not people.</p>
+    </li>
+    <li>
+      <h3>Follow local laws</h3>
+      <p>Discussion of replicas and gear must comply with the laws of your country/region. No advice on circumventing age or import restrictions.</p>
+    </li>
+    <li>
+      <h3>Field safety first</h3>
+      <p>Eye protection is mandatory at all times on a field. Respect posted FPS/chrono limits and minimum engagement distances (MEDs).</p>
+    </li>
+    <li>
+      <h3>Marketplace rules</h3>
+      <p>Buy/Sell/Trade posts must be accurate and honest. No scamming, no listing stolen or banned items. Trades are between users at their own risk.</p>
+    </li>
+    <li>
+      <h3>No spam or unapproved advertising</h3>
+      <p>Self-promotion, referral links, and repeated posting of the same content are not allowed without moderator approval.</p>
+    </li>
+    <li>
+      <h3>Post in the right place</h3>
+      <p>Use the category that best fits your topic. Off-topic or duplicate threads may be moved or removed.</p>
+    </li>
+    <li>
+      <h3>One account per person</h3>
+      <p>Do not create multiple accounts to evade bans or manipulate discussions.</p>
+    </li>
+    <li>
+      <h3>Report, don't retaliate</h3>
+      <p>If you see a rule broken, report it to a moderator instead of escalating in the thread.</p>
+    </li>
+  </ol>
 </main>
 
 <footer class="site-footer">
@@ -68,6 +91,5 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="supabase-client.js"></script>
 <script src="auth-nav.js"></script>
-<script src="forum.js"></script>
 </body>
 </html>

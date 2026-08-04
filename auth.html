@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>AF | Airsoft Forum</title>
+<title>Log In | AF</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -32,31 +32,35 @@
       <span class="brand-text">AF</span>
     </a>
     <nav class="main-nav">
-      <a href="index.html" class="active">Forums</a>
+      <a href="index.html">Forums</a>
       <a href="members.html">Members</a>
       <a href="rules.html">Rules</a>
-      <span id="nav-auth-slot"><a href="auth.html">Login</a></span>
+      <span id="nav-auth-slot"><a href="auth.html" class="active">Login</a></span>
     </nav>
   </div>
 </header>
 
-<main class="container">
-  <p class="breadcrumb"><a href="index.html">Forums</a> / <span id="category-crumb">Category</span></p>
-
-  <section class="forum-hero category-hero">
-    <div class="forum-icon large" id="category-icon">--</div>
-    <div>
-      <h1 id="category-title">Loading...</h1>
-      <p id="category-desc"></p>
+<main class="container auth-container">
+  <div class="auth-box">
+    <div class="auth-tabs">
+      <button type="button" class="auth-tab active" data-tab="login">Log In</button>
+      <button type="button" class="auth-tab" data-tab="signup">Sign Up</button>
     </div>
-  </section>
 
-  <ul class="forum-list thread-list" id="thread-list"></ul>
+    <form id="login-form" class="auth-form">
+      <input type="text" id="login-username" placeholder="Username" autocomplete="username" required>
+      <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required>
+      <button type="submit">Log In</button>
+      <p class="auth-error" id="login-error"></p>
+    </form>
 
-  <section class="post-box">
-    <h2 class="group-title">Start a new thread</h2>
-    <div id="post-box-inner"></div>
-  </section>
+    <form id="signup-form" class="auth-form auth-form-hidden">
+      <input type="text" id="signup-username" placeholder="Username" autocomplete="username" required>
+      <input type="password" id="signup-password" placeholder="Password (min 6 characters)" autocomplete="new-password" minlength="6" required>
+      <button type="submit">Create Account</button>
+      <p class="auth-error" id="signup-error"></p>
+    </form>
+  </div>
 </main>
 
 <footer class="site-footer">
@@ -68,6 +72,6 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
 <script src="supabase-client.js"></script>
 <script src="auth-nav.js"></script>
-<script src="forum.js"></script>
+<script src="auth.js"></script>
 </body>
 </html>

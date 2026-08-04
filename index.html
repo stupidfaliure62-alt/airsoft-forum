@@ -33,9 +33,9 @@
     </a>
     <nav class="main-nav">
       <a href="index.html" class="active">Forums</a>
-      <a href="#">Members</a>
-      <a href="#">Rules</a>
-      <a href="#">Login</a>
+      <a href="members.html">Members</a>
+      <a href="rules.html">Rules</a>
+      <span id="nav-auth-slot"><a href="auth.html">Login</a></span>
     </nav>
   </div>
 </header>
@@ -122,24 +122,14 @@
   </div>
 </main>
 
-<script>
-  (function () {
-    var el = document.getElementById("member-count");
-    var count = 90 + Math.floor(Math.random() * 60);
-    function render() { el.textContent = count.toLocaleString(); }
-    render();
-    setInterval(function () {
-      var delta = Math.floor(Math.random() * 5) - 2;
-      count = Math.max(1, count + delta);
-      render();
-    }, 3000);
-  })();
-</script>
-
 <footer class="site-footer">
   <div class="container">
-    <p>&copy; 2026 AF (Airsoft Forum). Logo is a placeholder.</p>
+    <p>&copy; 2026 AF (Airsoft Forum).</p>
   </div>
 </footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script src="supabase-client.js"></script>
+<script src="auth-nav.js"></script>
 </body>
 </html>
