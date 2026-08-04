@@ -7,7 +7,7 @@ const CATEGORIES = {
   "news-announcements": {
     icon: "NB",
     title: "News & Announcements",
-    desc: "Site updates and community news."
+    desc: "Site updates and community news. Admin posts only."
   },
   "replicas-upgrades": {
     icon: "RP",

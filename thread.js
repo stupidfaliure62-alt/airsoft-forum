@@ -18,7 +18,7 @@ function escapeHtmlThread(str) {
 async function loadReplies(threadId) {
   const { data, error } = await supabaseClient
     .from("replies")
-    .select("body, created_at, profiles(username)")
+    .select("body, image_url, created_at, profiles(username)")
     .eq("thread_id", threadId)
     .order("created_at", { ascending: true });
 
@@ -26,6 +26,7 @@ async function loadReplies(threadId) {
   return data.map(function (r) {
     return {
       body: r.body,
+      imageUrl: r.image_url,
       author: r.profiles ? r.profiles.username : "unknown",
       date: timeAgoThread(r.created_at)
     };
@@ -48,18 +49,20 @@ async function renderReplies(threadId) {
     li.innerHTML =
       '<div class="thread-info">' +
         '<p class="reply-body">' + escapeHtmlThread(r.body) + "</p>" +
+        (r.imageUrl ? '<img class="reply-image" src="' + escapeHtmlThread(r.imageUrl) + '" alt="">' : "") +
         '<p class="thread-meta">by ' + escapeHtmlThread(r.author) + " &middot; " + escapeHtmlThread(r.date) + "</p>" +
       "</div>";
     list.appendChild(li);
   });
 }
 
-async function saveReply(threadId, body) {
+async function saveReply(threadId, body, imageUrl) {
   const { data: { session } } = await supabaseClient.auth.getSession();
   if (!session) throw new Error("not-authenticated");
   const { error } = await supabaseClient.from("replies").insert({
     thread_id: threadId,
     body: body,
+    image_url: imageUrl || null,
     author_id: session.user.id
   });
   if (error) throw error;
@@ -81,7 +84,10 @@ async function initReplyBox(threadId) {
       '<p class="auth-error" id="reply-error"></p>' +
     "</form>";
 
-  document.getElementById("reply-form").addEventListener("submit", async function (e) {
+  const formEl = document.getElementById("reply-form");
+  attachImagePicker(formEl, document.getElementById("reply-message"));
+
+  formEl.addEventListener("submit", async function (e) {
     e.preventDefault();
     const messageInput = document.getElementById("reply-message");
     const errorEl = document.getElementById("reply-error");
@@ -89,7 +95,11 @@ async function initReplyBox(threadId) {
     if (!message) return;
 
     try {
-      await saveReply(threadId, message);
+      let imageUrl = null;
+      if (formEl._selectedImageFile) {
+        imageUrl = await uploadSelectedImage(formEl._selectedImageFile);
+      }
+      await saveReply(threadId, message, imageUrl);
       messageInput.value = "";
       renderReplies(threadId);
     } catch (err) {
@@ -109,7 +119,7 @@ async function initThreadPage() {
 
   const { data: thread, error } = await supabaseClient
     .from("threads")
-    .select("id, category, title, body, created_at, profiles(username)")
+    .select("id, category, title, body, image_url, created_at, profiles(username)")
     .eq("id", threadId)
     .single();
 
@@ -126,6 +136,12 @@ async function initThreadPage() {
   document.getElementById("thread-meta").textContent = "by " + author + " · " + timeAgoThread(thread.created_at);
   document.getElementById("thread-body").textContent = thread.body;
   document.getElementById("thread-crumb").textContent = thread.title;
+
+  if (thread.image_url) {
+    const img = document.getElementById("thread-image");
+    img.src = thread.image_url;
+    img.style.display = "block";
+  }
 
   if (category) {
     document.getElementById("category-crumb-link").textContent = category.title;

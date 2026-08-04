@@ -20,6 +20,8 @@ create policy "Users can update their own profile"
   on public.profiles for update
   using (auth.uid() = id);
 
+alter table public.profiles add column is_admin boolean not null default false;
+
 create function public.handle_new_user()
 returns trigger
 language plpgsql
@@ -52,9 +54,18 @@ create policy "Threads are viewable by everyone"
   on public.threads for select
   using (true);
 
-create policy "Authenticated users can create threads"
+create policy "Authenticated users can create threads except news"
   on public.threads for insert
-  with check (auth.uid() = author_id);
+  with check (
+    auth.uid() = author_id
+    and (
+      category <> 'news-announcements'
+      or exists (
+        select 1 from public.profiles
+        where id = auth.uid() and is_admin = true
+      )
+    )
+  );
 
 create table public.replies (
   id uuid primary key default gen_random_uuid(),
@@ -88,3 +99,16 @@ $$;
 create trigger on_reply_created
   after insert on public.replies
   for each row execute procedure public.increment_reply_count();
+
+insert into storage.buckets (id, name, public) values ('thread-images', 'thread-images', true);
+
+create policy "Images are publicly accessible"
+on storage.objects for select
+using (bucket_id = 'thread-images');
+
+create policy "Authenticated users can upload images"
+on storage.objects for insert
+with check (bucket_id = 'thread-images' and auth.role() = 'authenticated');
+
+alter table public.threads add column image_url text;
+alter table public.replies add column image_url text;

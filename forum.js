@@ -12,7 +12,7 @@ function timeAgo(dateStr) {
 async function loadThreads(cat) {
   const { data, error } = await supabaseClient
     .from("threads")
-    .select("id, title, body, reply_count, created_at, profiles(username)")
+    .select("id, title, body, image_url, reply_count, created_at, profiles(username)")
     .eq("category", cat)
     .order("created_at", { ascending: false });
 
@@ -29,7 +29,7 @@ async function loadThreads(cat) {
   });
 }
 
-async function saveThread(cat, title, body) {
+async function saveThread(cat, title, body, imageUrl) {
   const { data: { session } } = await supabaseClient.auth.getSession();
   if (!session) {
     throw new Error("not-authenticated");
@@ -38,6 +38,7 @@ async function saveThread(cat, title, body) {
     category: cat,
     title: title,
     body: body,
+    image_url: imageUrl || null,
     author_id: session.user.id
   });
   if (error) throw error;
@@ -80,6 +81,19 @@ async function initPostBox(cat) {
     return;
   }
 
+  if (cat === "news-announcements") {
+    const { data: profile } = await supabaseClient
+      .from("profiles")
+      .select("is_admin")
+      .eq("id", session.user.id)
+      .single();
+
+    if (!profile || !profile.is_admin) {
+      box.innerHTML = '<p class="auth-required">Only verified admins can post in News &amp; Announcements.</p>';
+      return;
+    }
+  }
+
   box.innerHTML =
     '<form id="post-form">' +
       '<input type="text" id="post-title" placeholder="Thread title" required>' +
@@ -88,7 +102,10 @@ async function initPostBox(cat) {
       '<p class="auth-error" id="post-error"></p>' +
     "</form>";
 
-  document.getElementById("post-form").addEventListener("submit", async function (e) {
+  const formEl = document.getElementById("post-form");
+  attachImagePicker(formEl, document.getElementById("post-message"));
+
+  formEl.addEventListener("submit", async function (e) {
     e.preventDefault();
     const titleInput = document.getElementById("post-title");
     const messageInput = document.getElementById("post-message");
@@ -98,7 +115,11 @@ async function initPostBox(cat) {
     if (!title || !message) return;
 
     try {
-      await saveThread(cat, title, message);
+      let imageUrl = null;
+      if (formEl._selectedImageFile) {
+        imageUrl = await uploadSelectedImage(formEl._selectedImageFile);
+      }
+      await saveThread(cat, title, message, imageUrl);
       titleInput.value = "";
       messageInput.value = "";
       renderThreads(cat);
