@@ -33,5 +33,10 @@ const CATEGORIES = {
     icon: "EV",
     title: "Events & Milsims",
     desc: "Find and organize local events."
+  },
+  "suggestions": {
+    icon: "SU",
+    title: "Suggestions",
+    desc: "Got an idea to improve AF? Post it and upvote the ones you like."
   }
 };
