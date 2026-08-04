@@ -43,7 +43,8 @@
 <main class="container">
   <section class="forum-hero">
     <h1>Welcome to The Airsoft Forum</h1>
-    <p>Gear talk, skirmish reports, loadouts, and everything in between.</p>
+    <p>Gear talk, loadouts, and everything in between.</p>
+    <p class="member-count"><span class="live-dot"></span><span id="member-count">--</span> members online</p>
   </section>
 
   <div class="category-group">
@@ -120,6 +121,20 @@
     </ul>
   </div>
 </main>
+
+<script>
+  (function () {
+    var el = document.getElementById("member-count");
+    var count = 90 + Math.floor(Math.random() * 60);
+    function render() { el.textContent = count.toLocaleString(); }
+    render();
+    setInterval(function () {
+      var delta = Math.floor(Math.random() * 5) - 2;
+      count = Math.max(1, count + delta);
+      render();
+    }, 3000);
+  })();
+</script>
 
 <footer class="site-footer">
   <div class="container">
