@@ -15,16 +15,30 @@ function escapeHtmlThread(str) {
   return div.innerHTML;
 }
 
+let isCurrentUserAdmin = false;
+
+async function checkIsAdmin() {
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  if (!session) return false;
+  const { data: profile } = await supabaseClient
+    .from("profiles")
+    .select("is_admin")
+    .eq("id", session.user.id)
+    .single();
+  return !!(profile && profile.is_admin);
+}
+
 async function loadReplies(threadId) {
   const { data, error } = await supabaseClient
     .from("replies")
-    .select("body, image_url, created_at, profiles(username)")
+    .select("id, body, image_url, created_at, profiles(username)")
     .eq("thread_id", threadId)
     .order("created_at", { ascending: true });
 
   if (error || !data) return [];
   return data.map(function (r) {
     return {
+      id: r.id,
       body: r.body,
       imageUrl: r.image_url,
       author: r.profiles ? r.profiles.username : "unknown",
@@ -45,15 +59,43 @@ async function renderReplies(threadId) {
   }
   replies.forEach(function (r) {
     const li = document.createElement("li");
-    li.className = "thread-row";
+    li.className = "thread-row reply-row";
     li.innerHTML =
       '<div class="thread-info">' +
         '<p class="reply-body">' + escapeHtmlThread(r.body) + "</p>" +
         (r.imageUrl ? '<img class="reply-image" src="' + escapeHtmlThread(r.imageUrl) + '" alt="">' : "") +
         '<p class="thread-meta">by ' + escapeHtmlThread(r.author) + " &middot; " + escapeHtmlThread(r.date) + "</p>" +
-      "</div>";
+        '<div class="engagement-row">' +
+          '<div class="vote-widget" data-vote-reply="' + escapeHtmlThread(r.id) + '"></div>' +
+          '<div class="reaction-bar" data-reaction-reply="' + escapeHtmlThread(r.id) + '"></div>' +
+        "</div>" +
+      "</div>" +
+      (isCurrentUserAdmin ? '<button class="delete-btn" data-reply-id="' + escapeHtmlThread(r.id) + '">Delete</button>' : "");
     list.appendChild(li);
   });
+
+  list.querySelectorAll("[data-vote-reply]").forEach(function (el) {
+    renderVoteWidget(el, "reply", el.dataset.voteReply);
+  });
+  list.querySelectorAll("[data-reaction-reply]").forEach(function (el) {
+    renderReactionBar(el, "reply", el.dataset.reactionReply);
+  });
+
+  if (isCurrentUserAdmin) {
+    list.querySelectorAll("[data-reply-id]").forEach(function (btn) {
+      btn.addEventListener("click", async function () {
+        if (!confirm("Delete this reply?")) return;
+        btn.disabled = true;
+        const { error } = await supabaseClient.from("replies").delete().eq("id", btn.dataset.replyId);
+        if (error) {
+          alert("Couldn't delete that reply.");
+          btn.disabled = false;
+          return;
+        }
+        renderReplies(threadId);
+      });
+    });
+  }
 }
 
 async function saveReply(threadId, body, imageUrl) {
@@ -159,10 +201,34 @@ async function initThreadPage() {
     document.getElementById("category-crumb-link").href = "forum.html?cat=" + encodeURIComponent(thread.category);
   }
 
+  renderVoteWidget(document.getElementById("thread-vote"), "thread", threadId);
+  renderReactionBar(document.getElementById("thread-reactions"), "thread", threadId);
+
+  isCurrentUserAdmin = await checkIsAdmin();
+
+  if (isCurrentUserAdmin) {
+    const deleteBtn = document.createElement("button");
+    deleteBtn.className = "delete-btn delete-btn-thread";
+    deleteBtn.textContent = "Delete thread";
+    deleteBtn.addEventListener("click", async function () {
+      if (!confirm("Delete this entire thread and all its replies?")) return;
+      deleteBtn.disabled = true;
+      const { error: deleteError } = await supabaseClient.from("threads").delete().eq("id", threadId);
+      if (deleteError) {
+        alert("Couldn't delete this thread.");
+        deleteBtn.disabled = false;
+        return;
+      }
+      window.location.href = "forum.html?cat=" + encodeURIComponent(thread.category);
+    });
+    document.querySelector(".thread-detail").appendChild(deleteBtn);
+  }
+
   renderReplies(threadId);
   initReplyBox(threadId);
 
-  supabaseClient.auth.onAuthStateChange(function () {
+  supabaseClient.auth.onAuthStateChange(async function () {
+    isCurrentUserAdmin = await checkIsAdmin();
     initReplyBox(threadId);
   });
 }

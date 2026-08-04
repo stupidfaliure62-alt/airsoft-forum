@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AF | Airsoft Forum</title>
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 <header class="site-header">
@@ -52,6 +52,10 @@
     <p class="thread-meta" id="thread-meta"></p>
     <p class="thread-body" id="thread-body"></p>
     <img class="thread-image" id="thread-image" style="display:none;" alt="">
+    <div class="engagement-row">
+      <div class="vote-widget" id="thread-vote"></div>
+      <div class="reaction-bar" id="thread-reactions"></div>
+    </div>
   </article>
 
   <h2 class="group-title" id="replies-heading">Replies</h2>
@@ -70,10 +74,11 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="supabase-client.js?v=2"></script>
-<script src="auth-nav.js?v=2"></script>
-<script src="categories.js?v=2"></script>
-<script src="image-upload.js?v=2"></script>
-<script src="thread.js?v=2"></script>
+<script src="supabase-client.js?v=5"></script>
+<script src="auth-nav.js?v=5"></script>
+<script src="categories.js?v=5"></script>
+<script src="image-upload.js?v=5"></script>
+<script src="reactions.js?v=5"></script>
+<script src="thread.js?v=5"></script>
 </body>
 </html>

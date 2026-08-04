@@ -260,6 +260,154 @@ a:hover { color: var(--accent-hover); }
 
 .reply-image { max-height: 280px; }
 
+.delete-btn {
+  background: transparent;
+  border: 1px solid #e05c5c;
+  color: #e05c5c;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  flex: 0 0 auto;
+}
+
+.delete-btn:hover { background: rgba(224, 92, 92, 0.12); }
+.delete-btn:disabled { opacity: 0.5; cursor: default; }
+
+.delete-btn-thread { margin-top: 16px; }
+
+.engagement-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 14px;
+  flex-wrap: wrap;
+}
+
+.vote-widget {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 4px 10px;
+  background: var(--bg-row);
+}
+
+.vote-btn {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  font-size: 11px;
+  cursor: pointer;
+  line-height: 1;
+  padding: 2px;
+}
+
+.vote-btn:hover { color: var(--text); }
+.vote-btn.vote-up.active { color: #4caf50; }
+.vote-btn.vote-down.active { color: #e05c5c; }
+
+.vote-score {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  min-width: 14px;
+  text-align: center;
+}
+
+.reaction-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  position: relative;
+}
+
+.reaction-pill {
+  background: var(--bg-row);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-size: 14px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.reaction-pill:hover { border-color: var(--accent); }
+.reaction-pill.active { border-color: var(--accent); background: rgba(217, 123, 63, 0.15); }
+
+.reaction-count {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-dim);
+}
+
+.reaction-add {
+  background: var(--bg-row);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  width: 24px;
+  height: 24px;
+  color: var(--text-dim);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.reaction-add:hover { color: var(--text); border-color: var(--accent); }
+
+.reaction-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.reply-row {
+  align-items: flex-start;
+}
+
+.member-badge {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  margin-left: 6px;
+  vertical-align: middle;
+}
+
+.badge-admin-tag { color: var(--accent); border-color: var(--accent); }
+.badge-banned-tag { color: #e05c5c; border-color: #e05c5c; }
+
+.ban-toggle-btn {
+  flex: 0 0 auto;
+  background: transparent;
+  border: 1px solid #e05c5c;
+  color: #e05c5c;
+  border-radius: 6px;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ban-toggle-btn:hover { background: rgba(224, 92, 92, 0.12); }
+
+.ban-toggle-btn.unban-btn {
+  border-color: #4caf50;
+  color: #4caf50;
+}
+
+.ban-toggle-btn.unban-btn:hover { background: rgba(76, 175, 80, 0.12); }
+
+.ban-toggle-btn:disabled { opacity: 0.5; cursor: default; }
+
 .image-picker {
   display: flex;
   align-items: center;
@@ -499,6 +647,27 @@ a:hover { color: var(--accent-hover); }
   font-size: 13px;
   margin: 0;
   min-height: 16px;
+}
+
+.auth-success {
+  color: #4caf50;
+  font-size: 13px;
+  margin: 0;
+}
+
+.forgot-link {
+  align-self: center;
+  color: var(--text-dim);
+  font-size: 13px;
+  text-align: center;
+}
+
+.forgot-link:hover { color: var(--accent); }
+
+.forgot-intro {
+  color: var(--text-dim);
+  font-size: 13px;
+  margin: 0;
 }
 
 .auth-required {

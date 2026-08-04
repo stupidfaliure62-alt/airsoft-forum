@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Log In | AF</title>
-<link rel="stylesheet" href="styles.css?v=2">
+<link rel="stylesheet" href="styles.css?v=5">
 </head>
 <body>
 <header class="site-header">
@@ -52,13 +52,25 @@
       <input type="password" id="login-password" placeholder="Password" autocomplete="current-password" required>
       <button type="submit">Log In</button>
       <p class="auth-error" id="login-error"></p>
+      <a href="#" id="forgot-password-link" class="forgot-link">Forgot password?</a>
     </form>
 
     <form id="signup-form" class="auth-form auth-form-hidden">
       <input type="text" id="signup-username" placeholder="Username" autocomplete="username" required>
+      <input type="email" id="signup-email" placeholder="Email" autocomplete="email" required>
       <input type="password" id="signup-password" placeholder="Password (min 6 characters)" autocomplete="new-password" minlength="6" required>
+      <div id="captcha-signup"></div>
       <button type="submit">Create Account</button>
       <p class="auth-error" id="signup-error"></p>
+    </form>
+
+    <form id="forgot-form" class="auth-form auth-form-hidden">
+      <p class="forgot-intro">Enter your username and we'll email a reset link to the address on file.</p>
+      <input type="text" id="forgot-username" placeholder="Username" autocomplete="username" required>
+      <button type="submit">Send Reset Link</button>
+      <p class="auth-error" id="forgot-error"></p>
+      <p class="auth-success" id="forgot-success"></p>
+      <a href="#" id="back-to-login-link" class="forgot-link">Back to log in</a>
     </form>
   </div>
 </main>
@@ -70,8 +82,9 @@
 </footer>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
-<script src="supabase-client.js?v=2"></script>
-<script src="auth-nav.js?v=2"></script>
-<script src="auth.js?v=2"></script>
+<script src="supabase-client.js?v=5"></script>
+<script src="auth-nav.js?v=5"></script>
+<script src="https://js.hcaptcha.com/1/api.js?onload=onHcaptchaReady&render=explicit" async defer></script>
+<script src="auth.js?v=5"></script>
 </body>
 </html>
