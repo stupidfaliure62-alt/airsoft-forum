@@ -77,6 +77,17 @@ async function initReplyBox(threadId) {
     return;
   }
 
+  const { data: profile } = await supabaseClient
+    .from("profiles")
+    .select("is_banned")
+    .eq("id", session.user.id)
+    .single();
+
+  if (profile && profile.is_banned) {
+    box.innerHTML = '<p class="auth-required">Your account has been banned from posting.</p>';
+    return;
+  }
+
   box.innerHTML =
     '<form id="reply-form">' +
       '<textarea id="reply-message" placeholder="Write your reply..." rows="3" required></textarea>' +

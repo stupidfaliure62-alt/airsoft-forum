@@ -21,6 +21,31 @@ create policy "Users can update their own profile"
   using (auth.uid() = id);
 
 alter table public.profiles add column is_admin boolean not null default false;
+alter table public.profiles add column is_banned boolean not null default false;
+
+create or replace function public.prevent_self_privilege_escalation()
+returns trigger
+language plpgsql
+security definer set search_path = public
+as $$
+begin
+  if auth.uid() is null then
+    return new;
+  end if;
+
+  if (new.is_admin is distinct from old.is_admin or new.is_banned is distinct from old.is_banned) then
+    if not exists (select 1 from public.profiles where id = auth.uid() and is_admin = true) then
+      new.is_admin := old.is_admin;
+      new.is_banned := old.is_banned;
+    end if;
+  end if;
+  return new;
+end;
+$$;
+
+create trigger on_profile_update_guard
+  before update on public.profiles
+  for each row execute procedure public.prevent_self_privilege_escalation();
 
 create function public.handle_new_user()
 returns trigger
@@ -58,6 +83,7 @@ create policy "Authenticated users can create threads except news"
   on public.threads for insert
   with check (
     auth.uid() = author_id
+    and not exists (select 1 from public.profiles where id = auth.uid() and is_banned = true)
     and (
       category <> 'news-announcements'
       or exists (
@@ -83,7 +109,10 @@ create policy "Replies are viewable by everyone"
 
 create policy "Authenticated users can create replies"
   on public.replies for insert
-  with check (auth.uid() = author_id);
+  with check (
+    auth.uid() = author_id
+    and not exists (select 1 from public.profiles where id = auth.uid() and is_banned = true)
+  );
 
 create function public.increment_reply_count()
 returns trigger

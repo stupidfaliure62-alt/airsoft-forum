@@ -81,17 +81,20 @@ async function initPostBox(cat) {
     return;
   }
 
-  if (cat === "news-announcements") {
-    const { data: profile } = await supabaseClient
-      .from("profiles")
-      .select("is_admin")
-      .eq("id", session.user.id)
-      .single();
+  const { data: profile } = await supabaseClient
+    .from("profiles")
+    .select("is_admin, is_banned")
+    .eq("id", session.user.id)
+    .single();
 
-    if (!profile || !profile.is_admin) {
-      box.innerHTML = '<p class="auth-required">Only verified admins can post in News &amp; Announcements.</p>';
-      return;
-    }
+  if (profile && profile.is_banned) {
+    box.innerHTML = '<p class="auth-required">Your account has been banned from posting.</p>';
+    return;
+  }
+
+  if (cat === "news-announcements" && (!profile || !profile.is_admin)) {
+    box.innerHTML = '<p class="auth-required">Only verified admins can post in News &amp; Announcements.</p>';
+    return;
   }
 
   box.innerHTML =
