@@ -17,12 +17,17 @@ async function renderAuthNav() {
 
   const { data: profile } = await supabaseClient
     .from("profiles")
-    .select("username")
+    .select("username, is_admin")
     .eq("id", session.user.id)
     .single();
 
   const name = profile ? profile.username : session.user.email;
+  const adminLink = (profile && profile.is_admin)
+    ? '<a href="admin.html">Applications</a>'
+    : '<a href="apply.html">Apply</a>';
+
   slot.innerHTML =
+    adminLink +
     '<span class="nav-user">' + escapeHtmlLocal(name) + "</span>" +
     '<a href="#" id="logout-link">Log out</a>';
 

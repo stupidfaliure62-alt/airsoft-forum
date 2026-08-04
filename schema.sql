@@ -20,6 +20,21 @@ create policy "Users can update their own profile"
   on public.profiles for update
   using (auth.uid() = id);
 
+-- SECURITY DEFINER so a policy on profiles can check admin status without
+-- recursively re-triggering RLS on profiles.
+create or replace function public.is_admin_user()
+returns boolean
+language sql
+security definer set search_path = public
+stable
+as $$
+  select exists (select 1 from public.profiles where id = auth.uid() and is_admin = true);
+$$;
+
+create policy "Admins can update any profile"
+  on public.profiles for update
+  using (public.is_admin_user());
+
 alter table public.profiles add column is_admin boolean not null default false;
 alter table public.profiles add column is_banned boolean not null default false;
 
@@ -128,6 +143,39 @@ $$;
 create trigger on_reply_created
   after insert on public.replies
   for each row execute procedure public.increment_reply_count();
+
+create table public.admin_applications (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid not null unique references public.profiles(id) on delete cascade,
+  hours_online text not null,
+  why_admin text not null,
+  experience text,
+  status text not null default 'pending',
+  created_at timestamptz not null default now()
+);
+
+alter table public.admin_applications enable row level security;
+
+create policy "Own application or admins view all"
+  on public.admin_applications for select
+  using (
+    auth.uid() = user_id
+    or exists (select 1 from public.profiles where id = auth.uid() and is_admin = true)
+  );
+
+create policy "Users can submit their own application"
+  on public.admin_applications for insert
+  with check (
+    auth.uid() = user_id
+    and not exists (
+      select 1 from public.profiles
+      where id = auth.uid() and (is_banned = true or is_admin = true)
+    )
+  );
+
+create policy "Admins can update applications"
+  on public.admin_applications for update
+  using (exists (select 1 from public.profiles where id = auth.uid() and is_admin = true));
 
 insert into storage.buckets (id, name, public) values ('thread-images', 'thread-images', true);
 
