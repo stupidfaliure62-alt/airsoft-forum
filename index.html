@@ -3,23 +3,33 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Airsoft Ops Forum</title>
+<title>AF | Airsoft Forum</title>
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 <header class="site-header">
   <div class="container header-inner">
     <a class="brand" href="index.html">
-      <svg class="logo" viewBox="0 0 64 64" width="40" height="40" aria-hidden="true">
-        <circle cx="32" cy="32" r="30" fill="none" stroke="var(--accent)" stroke-width="3"/>
-        <circle cx="32" cy="32" r="18" fill="none" stroke="var(--accent)" stroke-width="2"/>
-        <line x1="32" y1="2" x2="32" y2="16" stroke="var(--accent)" stroke-width="3"/>
-        <line x1="32" y1="48" x2="32" y2="62" stroke="var(--accent)" stroke-width="3"/>
-        <line x1="2" y1="32" x2="16" y2="32" stroke="var(--accent)" stroke-width="3"/>
-        <line x1="48" y1="32" x2="62" y2="32" stroke="var(--accent)" stroke-width="3"/>
-        <circle cx="32" cy="32" r="4" fill="var(--accent)"/>
+      <svg class="logo" viewBox="0 0 240 260" width="40" height="43" aria-hidden="true">
+        <polyline points="60,110 60,70 120,20 180,70 180,110" fill="none" stroke="#3a4a1f" stroke-width="5" stroke-linejoin="round"/>
+        <circle cx="120" cy="150" r="90" fill="#12160b" stroke="#3a4a1f" stroke-width="12"/>
+        <circle cx="120" cy="150" r="58" fill="none" stroke="#a3b073" stroke-width="2"/>
+        <g stroke="#d3dba8" stroke-width="8" stroke-linecap="square">
+          <line x1="120" y1="46" x2="120" y2="92"/>
+          <line x1="120" y1="208" x2="120" y2="254"/>
+          <line x1="14" y1="150" x2="60" y2="150"/>
+          <line x1="180" y1="150" x2="226" y2="150"/>
+        </g>
+        <g stroke="#a3b073" stroke-width="4" stroke-linecap="round">
+          <line x1="83" y1="113" x2="97" y2="127"/>
+          <line x1="157" y1="113" x2="143" y2="127"/>
+          <line x1="83" y1="187" x2="97" y2="173"/>
+          <line x1="157" y1="187" x2="143" y2="173"/>
+        </g>
+        <rect x="97" y="127" width="46" height="46" transform="rotate(45 120 150)" fill="none" stroke="#d3dba8" stroke-width="9"/>
+        <circle cx="120" cy="150" r="7" fill="#d3dba8"/>
       </svg>
-      <span class="brand-text">AIRSOFT&nbsp;OPS</span>
+      <span class="brand-text">AF</span>
     </a>
     <nav class="main-nav">
       <a href="index.html" class="active">Forums</a>
@@ -32,7 +42,7 @@
 
 <main class="container">
   <section class="forum-hero">
-    <h1>Welcome to Airsoft Ops</h1>
+    <h1>Welcome to The Airsoft Forum</h1>
     <p>Gear talk, skirmish reports, loadouts, and everything in between.</p>
   </section>
 
@@ -42,7 +52,7 @@
       <li class="forum-row">
         <div class="forum-icon">GD</div>
         <div class="forum-info">
-          <a href="#" class="forum-title">General Discussion</a>
+          <a href="forum.html?cat=general-discussion" class="forum-title">General Discussion</a>
           <p class="forum-desc">Talk about anything airsoft related.</p>
         </div>
         <div class="forum-stats"><span>1,204</span> threads</div>
@@ -50,7 +60,7 @@
       <li class="forum-row">
         <div class="forum-icon">NB</div>
         <div class="forum-info">
-          <a href="#" class="forum-title">News &amp; Announcements</a>
+          <a href="forum.html?cat=news-announcements" class="forum-title">News &amp; Announcements</a>
           <p class="forum-desc">Site updates and community news.</p>
         </div>
         <div class="forum-stats"><span>58</span> threads</div>
@@ -64,7 +74,7 @@
       <li class="forum-row">
         <div class="forum-icon">RP</div>
         <div class="forum-info">
-          <a href="#" class="forum-title">Replicas &amp; Upgrades</a>
+          <a href="forum.html?cat=replicas-upgrades" class="forum-title">Replicas &amp; Upgrades</a>
           <p class="forum-desc">AEGs, GBBs, HPA, and internals.</p>
         </div>
         <div class="forum-stats"><span>842</span> threads</div>
@@ -72,7 +82,7 @@
       <li class="forum-row">
         <div class="forum-icon">LO</div>
         <div class="forum-info">
-          <a href="#" class="forum-title">Loadouts &amp; Gear</a>
+          <a href="forum.html?cat=loadouts-gear" class="forum-title">Loadouts &amp; Gear</a>
           <p class="forum-desc">Plate carriers, camo, and kit setups.</p>
         </div>
         <div class="forum-stats"><span>510</span> threads</div>
@@ -80,7 +90,7 @@
       <li class="forum-row">
         <div class="forum-icon">BS</div>
         <div class="forum-info">
-          <a href="#" class="forum-title">Buy / Sell / Trade</a>
+          <a href="forum.html?cat=buy-sell-trade" class="forum-title">Buy / Sell / Trade</a>
           <p class="forum-desc">Marketplace for gear and replicas.</p>
         </div>
         <div class="forum-stats"><span>1,930</span> threads</div>
@@ -92,17 +102,17 @@
     <h2 class="group-title">Field &amp; Events</h2>
     <ul class="forum-list">
       <li class="forum-row">
-        <div class="forum-icon">SR</div>
+        <div class="forum-icon">FR</div>
         <div class="forum-info">
-          <a href="#" class="forum-title">Skirmish Reports</a>
-          <p class="forum-desc">After-action reports from recent games.</p>
+          <a href="forum.html?cat=field-ratings" class="forum-title">Field Ratings</a>
+          <p class="forum-desc">Reviews and ratings for local fields.</p>
         </div>
         <div class="forum-stats"><span>377</span> threads</div>
       </li>
       <li class="forum-row">
         <div class="forum-icon">EV</div>
         <div class="forum-info">
-          <a href="#" class="forum-title">Events &amp; Milsims</a>
+          <a href="forum.html?cat=events-milsims" class="forum-title">Events &amp; Milsims</a>
           <p class="forum-desc">Find and organize local events.</p>
         </div>
         <div class="forum-stats"><span>203</span> threads</div>
@@ -113,7 +123,7 @@
 
 <footer class="site-footer">
   <div class="container">
-    <p>&copy; 2026 Airsoft Ops Forum. Logo is a placeholder.</p>
+    <p>&copy; 2026 AF (Airsoft Forum). Logo is a placeholder.</p>
   </div>
 </footer>
 </body>

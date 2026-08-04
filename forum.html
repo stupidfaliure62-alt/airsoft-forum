@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AF | Airsoft Forum</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="site-header">
+  <div class="container header-inner">
+    <a class="brand" href="index.html">
+      <svg class="logo" viewBox="0 0 240 260" width="40" height="43" aria-hidden="true">
+        <polyline points="60,110 60,70 120,20 180,70 180,110" fill="none" stroke="#3a4a1f" stroke-width="5" stroke-linejoin="round"/>
+        <circle cx="120" cy="150" r="90" fill="#12160b" stroke="#3a4a1f" stroke-width="12"/>
+        <circle cx="120" cy="150" r="58" fill="none" stroke="#a3b073" stroke-width="2"/>
+        <g stroke="#d3dba8" stroke-width="8" stroke-linecap="square">
+          <line x1="120" y1="46" x2="120" y2="92"/>
+          <line x1="120" y1="208" x2="120" y2="254"/>
+          <line x1="14" y1="150" x2="60" y2="150"/>
+          <line x1="180" y1="150" x2="226" y2="150"/>
+        </g>
+        <g stroke="#a3b073" stroke-width="4" stroke-linecap="round">
+          <line x1="83" y1="113" x2="97" y2="127"/>
+          <line x1="157" y1="113" x2="143" y2="127"/>
+          <line x1="83" y1="187" x2="97" y2="173"/>
+          <line x1="157" y1="187" x2="143" y2="173"/>
+        </g>
+        <rect x="97" y="127" width="46" height="46" transform="rotate(45 120 150)" fill="none" stroke="#d3dba8" stroke-width="9"/>
+        <circle cx="120" cy="150" r="7" fill="#d3dba8"/>
+      </svg>
+      <span class="brand-text">AF</span>
+    </a>
+    <nav class="main-nav">
+      <a href="index.html" class="active">Forums</a>
+      <a href="#">Members</a>
+      <a href="#">Rules</a>
+      <a href="#">Login</a>
+    </nav>
+  </div>
+</header>
+
+<main class="container">
+  <p class="breadcrumb"><a href="index.html">Forums</a> / <span id="category-crumb">Category</span></p>
+
+  <section class="forum-hero category-hero">
+    <div class="forum-icon large" id="category-icon">--</div>
+    <div>
+      <h1 id="category-title">Loading...</h1>
+      <p id="category-desc"></p>
+    </div>
+  </section>
+
+  <ul class="forum-list thread-list" id="thread-list"></ul>
+
+  <section class="post-box">
+    <h2 class="group-title">Start a new thread</h2>
+    <form id="post-form">
+      <input type="text" id="post-title" placeholder="Thread title" required>
+      <textarea id="post-message" placeholder="Write your message..." rows="4" required></textarea>
+      <button type="submit">Post Thread</button>
+    </form>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <p>&copy; 2026 AF (Airsoft Forum).</p>
+  </div>
+</footer>
+
+<script src="forum.js"></script>
+</body>
+</html>

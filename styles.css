@@ -1,19 +1,25 @@
 :root {
-  --bg: #14161a;
-  --bg-alt: #1c1f24;
-  --bg-row: #20242a;
-  --bg-row-hover: #262b32;
-  --border: #2c3138;
-  --text: #d7dae0;
-  --text-dim: #8b93a1;
+  --bg: #000000;
+  --bg-alt: #0a0a0a;
+  --bg-row: #111111;
+  --bg-row-hover: #1a1a1a;
+  --border: #2c2c2c;
+  --text: #ffffff;
+  --text-dim: #b3b3b3;
   --accent: #d97b3f;
   --accent-hover: #ef925a;
 }
 
 * { box-sizing: border-box; }
 
+html {
+  background: var(--bg);
+  min-height: 100%;
+}
+
 body {
   margin: 0;
+  min-height: 100vh;
   background: var(--bg);
   color: var(--text);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -166,6 +172,109 @@ a:hover { color: var(--accent-hover); }
   display: block;
   font-size: 15px;
 }
+
+.breadcrumb {
+  margin: 20px 0 0;
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+.category-hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.forum-icon.large {
+  flex: 0 0 56px;
+  height: 56px;
+  font-size: 16px;
+}
+
+.thread-list { margin-bottom: 32px; }
+
+.thread-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px;
+  background: var(--bg-row);
+  border-bottom: 1px solid var(--border);
+}
+
+.thread-row:last-child { border-bottom: none; }
+.thread-row:hover { background: var(--bg-row-hover); }
+
+.thread-empty {
+  padding: 24px 16px;
+  color: var(--text-dim);
+  font-size: 14px;
+  text-align: center;
+}
+
+.thread-info { flex: 1; min-width: 0; }
+
+.thread-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  display: block;
+}
+
+.thread-meta {
+  margin: 2px 0 0;
+  color: var(--text-dim);
+  font-size: 13px;
+}
+
+.post-box {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 40px;
+  background: var(--bg-alt);
+}
+
+.post-box form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.post-box input,
+.post-box textarea {
+  width: 100%;
+  background: var(--bg-row);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  color: var(--text);
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
+}
+
+.post-box input:focus,
+.post-box textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.post-box button {
+  align-self: flex-start;
+  background: var(--accent);
+  color: #14160f;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.post-box button:hover { background: var(--accent-hover); }
 
 .site-footer {
   border-top: 1px solid var(--border);
